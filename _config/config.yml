@@ -1,0 +1,6 @@
+---
+Name: sreg
+---
+SilverStripe\ORM\DataObject:
+  extensions:
+    - gorriecoe\sreg\SReg
