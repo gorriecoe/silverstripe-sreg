@@ -19,7 +19,7 @@ class SReg extends DataExtension
     {
         $owner = $this->owner;
         $parsedString = preg_replace_callback(
-            '/\{\$([\w\d\s|]*)\}/',
+            '/\{\$([\w\d\s.|]*)\}/',
             function ($matches) use($owner)
             {
                 $values = explode('|', $matches[1]);
