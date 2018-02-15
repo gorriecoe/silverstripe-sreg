@@ -1,10 +1,10 @@
-# Silverstripe synparser
+# Silverstripe sreg
 Simple syntax parser that allows you to use .ss template like variables in a dataobjects string
 
 ## Installation
 Composer is the recommended way of installing SilverStripe modules.
 ```
-composer require gorriecoe/silverstripe-synparser
+composer require gorriecoe/silverstripe-sreg
 ```
 
 ## Requirements
