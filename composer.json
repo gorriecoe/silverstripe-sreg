@@ -1,6 +1,6 @@
 {
 	"name": "gorriecoe/silverstripe-sreg",
-	"description": "Simple syntax parser that allows you to use .ss template like variables in a string",
+	"description": "Simple tokenizer that allows you to use .ss template like variables in a dataobjects string.",
     "type": "silverstripe-vendormodule",
     "license": "BSD-3-Clause",
     "authors": [
@@ -11,6 +11,7 @@
     ],
     "keywords": [
       "silverstripe",
+      "tokenizer",
       "sreg"
     ],
     "homepage": "http://github.com/gorriecoe/silverstripe-sreg",

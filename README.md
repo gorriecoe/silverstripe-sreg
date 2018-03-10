@@ -1,5 +1,5 @@
 # Silverstripe sreg
-Simple syntax parser that allows you to use .ss template like variables in a dataobjects string
+Simple tokenizer that allows you to use .ss template like variables in a dataobjects string.
 
 ## Installation
 Composer is the recommended way of installing SilverStripe modules.
@@ -30,7 +30,7 @@ class MyObject extends DataObject
         return 'Some text';
     }
 
-    public function getTitle()
+    public function getValue()
     {
         return $this->sreg('Lorem ipsum {$Relation.Title|AFallBack.Title|Fall back text} {$SomeFunction}');
     }
