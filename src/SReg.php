@@ -27,8 +27,12 @@ class SReg extends DataExtension
                 foreach ($values as $key => $value) {
                     if ($relValue = $owner->relField($value)) {
                         return $relValue;
-                    }
-                    if ($key + 1 == $count && !$owner->hasMethod($value)) {
+                    } elseif (
+                        $value != 'null' &&
+                        $count > 1 &&
+                        $key + 1 == $count &&
+                        $owner->hasMethod($value)
+                    ) {
                         return $value;
                     }
                 }
