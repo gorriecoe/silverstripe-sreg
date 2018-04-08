@@ -18,31 +18,29 @@ class SReg extends DataExtension
     public function sreg($string)
     {
         $owner = $this->owner;
-        $count = 0;
-        $parsedString = preg_replace_callback(
-            '/\{\$([\w\d\s.|]*)\}/',
-            function ($matches)
-            {
-                return $this->sregValue($matches[1]);
-            },
-            $string,
-            -1,
-            $count
+        $string = $this->sregValue(
+            preg_replace_callback(
+                '/\{\$([\w\d\s.|]*)\}/',
+                function ($matches)
+                {
+                    return $this->sregValue($matches[1]);
+                },
+                $string
+            ),
+            true
         );
-        if (!$count && !preg_match('/ /', $string)) {
-            $parsedString = $this->sregValue($string);
-        }
-        if (trim($parsedString) != '') {
-            return $parsedString;
+        if (trim($string) != '') {
+            return $string;
         }
     }
 
     /**
      * Splits string by |, loops each segment and returns the first non-null value
-     * @param string $string
+     * @param string $value
+     * @param boolean $allowNoMatch
      * @return string|null
      */
-    private function sregValue($value='')
+    private function sregValue($value = '', $allowNoMatch = false)
     {
         $owner = $this->owner;
         $values = explode('|', $value);
@@ -58,6 +56,9 @@ class SReg extends DataExtension
             ) {
                 return $value;
             }
+        }
+        if ($allowNoMatch) {
+            return $value;
         }
     }
 }
