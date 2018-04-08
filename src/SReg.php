@@ -9,29 +9,31 @@ use SilverStripe\ORM\DataExtension;
  */
 class SReg extends DataExtension
 {
+
+    public function sreg($string)
+    {
+        $string = $this->sregValue($this->sregTokenizer($string));
+        if (trim($string) != '') {
+            return $string;
+        }
+    }
+
     /**
      * Simple syntax tokenizer that allows you to use .ss template like variables in a string
      * e.g 'Lorem ipsum {$Relation.Title}'
      * @param string $string
-     * @return string|null
+     * @return string
      */
-    public function sreg($string)
+    private function sregTokenizer($value = '')
     {
-        $owner = $this->owner;
-        $string = $this->sregValue(
-            preg_replace_callback(
-                '/\{\$([\w\d\s.|]*)\}/',
-                function ($matches)
-                {
-                    return $this->sregValue($matches[1]);
-                },
-                $string
-            ),
-            true
+        return preg_replace_callback(
+            '/\{\$([\w\d\s.|]*)\}/',
+            function ($matches)
+            {
+                return $this->sregValue($matches[1]);
+            },
+            $value
         );
-        if (trim($string) != '') {
-            return $string;
-        }
     }
 
     /**
@@ -40,25 +42,27 @@ class SReg extends DataExtension
      * @param boolean $allowNoMatch
      * @return string|null
      */
-    private function sregValue($value = '', $allowNoMatch = false)
+    private function sregValue($value = '')
     {
         $owner = $this->owner;
         $values = explode('|', $value);
         $count = count($values);
         foreach ($values as $key => $value) {
-            if ($relValue = $owner->relField($value)) {
-                return $relValue;
-            } elseif (
-                $value != 'null' &&
-                $count > 1 &&
-                $key + 1 == $count &&
-                !$owner->hasMethod($value)
-            ) {
-                return $value;
+            if ($value == '' || $value == 'null') {
+                return null;
+            } elseif ($relValue = $owner->relField($value)) {
+                if (is_object($relValue) && method_exists($relValue, 'AbsoluteLink')) {
+                    if ($link = $relValue->AbsoluteLink()) {
+                        return $link;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    return $relValue;
+                }
+            } elseif ($key + 1 == $count && !$owner->hasMethod($value) ) {
+                return $this->sregTokenizer($value);
             }
-        }
-        if ($allowNoMatch) {
-            return $value;
         }
     }
 }
