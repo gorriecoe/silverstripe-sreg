@@ -9,7 +9,6 @@ use SilverStripe\ORM\DataExtension;
  */
 class SReg extends DataExtension
 {
-
     public function sreg($string)
     {
         $string = $this->sregValue($this->sregTokenizer($string));
@@ -61,7 +60,7 @@ class SReg extends DataExtension
                     return $relValue;
                 }
             } elseif ($key + 1 == $count && !$owner->hasMethod($value) ) {
-                return $this->sregTokenizer($value);
+                return $value;
             }
         }
     }
