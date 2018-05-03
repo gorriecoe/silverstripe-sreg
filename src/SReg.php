@@ -103,7 +103,7 @@ class SReg extends DataExtension
                 ($dbObject = $component->dbObject($relation))
             ) {
                 $component = $dbObject;
-            } else {
+            } elseif (ClassInfo::hasMethod($component, 'obj')) {
                 $component = $component->obj($relation);
                 if (ClassInfo::hasMethod($component, 'Plain')) {
                     $component = $component->Plain();
